@@ -63,6 +63,7 @@ namespace MapEditor2D
                 tileCoords.Y * _map.TileHeight,
                 _map.TileWidth,
                 _map.TileHeight);
+            _selectedRectangles.Add(_selectedTile);
 
             Invalidate();
         }
