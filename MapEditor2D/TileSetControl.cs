@@ -20,6 +20,8 @@ namespace MapEditor2D
         private Rectangle _selectedTile;
         private List<Rectangle> _selectedRectangles = new List<Rectangle>();
 
+        private Point _startPoint;
+
 
         public TileSetControl()
         {
@@ -56,7 +58,8 @@ namespace MapEditor2D
         {
             base.OnMouseDown(e);
 
-            var tileCoords = GetTileUnderMouse(e.Location);
+            var tileCoords = GetTileCoordinateFromPoint(e.Location);
+            _startPoint = e.Location;
             _prevSelectedTile = _selectedTile;
             _selectedTile = new Rectangle(
                 tileCoords.X * _map.TileWidth,
@@ -70,23 +73,10 @@ namespace MapEditor2D
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
-           base.OnMouseMove(e);
+            base.OnMouseMove(e);
 
-            if (e.Button != MouseButtons.Left)
+            if (e.Button == MouseButtons.Left && CalculateSelectedTiles(e.Location))
             {
-                return;
-            }
-
-            var tileCoords = GetTileUnderMouse(e.Location);
-            var tileRect = new Rectangle(
-                tileCoords.X * _map.TileWidth,
-                tileCoords.Y * _map.TileHeight,
-                _map.TileWidth,
-                _map.TileHeight);
-
-            if (!_selectedRectangles.Contains(tileRect))
-            {
-                _selectedRectangles.Add(tileRect);
                 Invalidate();
             }
         }
@@ -95,9 +85,60 @@ namespace MapEditor2D
         {
             base.OnMouseUp(e);
             _selectedRectangles.Clear();
+            _startPoint = Point.Empty;
         }
 
-        private Point GetTileUnderMouse(Point mousePoint)
+        private bool CalculateSelectedTiles(Point mousePoint)
+        {
+            // TODO:
+            // When swapping selection direction without releasing the mouse button
+            // we need clear the selection rectangle, else we get unwanted selections.
+
+            var added = false;
+            var inputA = _startPoint;
+            var inputB = mousePoint;
+
+            var startPoint = new Point(Math.Min(inputA.X, inputB.X), Math.Min(inputA.Y, inputB.Y));
+            var endPoint = new Point(Math.Max(inputA.X, inputB.X), Math.Max(inputA.Y, inputB.Y));
+
+            var startTileCoords = GetTileCoordinateFromPoint(startPoint);
+            var endTileCoords = GetTileCoordinateFromPoint(endPoint);
+
+            var xTiles = startTileCoords.X + (endTileCoords.X - startTileCoords.X) + 1; // + 1 offset
+            var yTiles = startTileCoords.Y + (endTileCoords.Y - startTileCoords.Y) + 1; // + 1 offset
+
+            for (int y = startTileCoords.Y; y < yTiles; y++)
+            {
+                for (int x = startTileCoords.X; x < xTiles; x++)
+                {
+                    var tileRect = new Rectangle(x * _map.TileWidth, y * _map.TileHeight, _map.TileWidth, _map.TileHeight);
+                    if (!_selectedRectangles.Contains(tileRect))
+                    {
+                        _selectedRectangles.Add(tileRect);
+                        added = true;
+                    }
+                }
+            }
+
+            return added;
+        }
+
+        private PointF Normalize(Point pointA, Point pointB)
+        {
+            var px = pointA.X - pointB.X;
+            var py = pointA.Y - pointB.Y;
+            var distance = Math.Sqrt(px * px + py * py);
+            return new PointF((float)(px / distance), (float)(py / distance));
+        }
+
+        private double DistanceBetween(Point pointA, Point pointB)
+        {
+            var px = pointA.X - pointB.X;
+            var py = pointA.Y - pointB.Y;
+            return Math.Sqrt(px * px + py * py);
+        }
+
+        private Point GetTileCoordinateFromPoint(Point mousePoint)
         {
             var x = Math.Floor((double)mousePoint.X / _map.TileWidth);
             var y = Math.Floor((double)mousePoint.Y / _map.TileHeight);
@@ -137,7 +178,7 @@ namespace MapEditor2D
             foreach (var rect in _selectedRectangles)
             {
                 e.Graphics.FillRectangle(brush, rect);
-            }            
+            }
         }
     }
 }
