@@ -30,27 +30,33 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DesignerForm));
             this.DesignSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.TileRenderControl = new MapEditor2D.TileRenderControl();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.layersTabPage = new System.Windows.Forms.TabPage();
             this.TilesetsTabPage = new System.Windows.Forms.TabPage();
             this.TileSetControl = new MapEditor2D.TileSetControl();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.SelectedTileLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.DesignSplitContainer)).BeginInit();
             this.DesignSplitContainer.Panel1.SuspendLayout();
             this.DesignSplitContainer.Panel2.SuspendLayout();
             this.DesignSplitContainer.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.TilesetsTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            this.tabControl1.SuspendLayout();
-            this.TilesetsTabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
             this.SuspendLayout();
             // 
             // DesignSplitContainer
@@ -71,6 +77,57 @@
             this.DesignSplitContainer.SplitterWidth = 8;
             this.DesignSplitContainer.TabIndex = 0;
             // 
+            // TileRenderControl
+            // 
+            this.TileRenderControl.AutoScroll = true;
+            this.TileRenderControl.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TileRenderControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TileRenderControl.Location = new System.Drawing.Point(0, 0);
+            this.TileRenderControl.Name = "TileRenderControl";
+            this.TileRenderControl.Size = new System.Drawing.Size(653, 651);
+            this.TileRenderControl.TabIndex = 0;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.layersTabPage);
+            this.tabControl1.Controls.Add(this.TilesetsTabPage);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(239, 651);
+            this.tabControl1.TabIndex = 0;
+            // 
+            // layersTabPage
+            // 
+            this.layersTabPage.Location = new System.Drawing.Point(4, 22);
+            this.layersTabPage.Name = "layersTabPage";
+            this.layersTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.layersTabPage.Size = new System.Drawing.Size(231, 625);
+            this.layersTabPage.TabIndex = 0;
+            this.layersTabPage.Text = "Layers";
+            this.layersTabPage.UseVisualStyleBackColor = true;
+            // 
+            // TilesetsTabPage
+            // 
+            this.TilesetsTabPage.Controls.Add(this.splitContainer2);
+            this.TilesetsTabPage.Location = new System.Drawing.Point(4, 22);
+            this.TilesetsTabPage.Name = "TilesetsTabPage";
+            this.TilesetsTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.TilesetsTabPage.Size = new System.Drawing.Size(231, 625);
+            this.TilesetsTabPage.TabIndex = 1;
+            this.TilesetsTabPage.Text = "Tilesets";
+            this.TilesetsTabPage.UseVisualStyleBackColor = true;
+            // 
+            // TileSetControl
+            // 
+            this.TileSetControl.BackColor = System.Drawing.Color.Silver;
+            this.TileSetControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TileSetControl.Location = new System.Drawing.Point(0, 0);
+            this.TileSetControl.Name = "TileSetControl";
+            this.TileSetControl.Size = new System.Drawing.Size(225, 581);
+            this.TileSetControl.TabIndex = 0;
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -89,16 +146,6 @@
             this.splitContainer1.Size = new System.Drawing.Size(900, 680);
             this.splitContainer1.SplitterDistance = 25;
             this.splitContainer1.TabIndex = 1;
-            // 
-            // TileRenderControl
-            // 
-            this.TileRenderControl.AutoScroll = true;
-            this.TileRenderControl.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TileRenderControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TileRenderControl.Location = new System.Drawing.Point(0, 0);
-            this.TileRenderControl.Name = "TileRenderControl";
-            this.TileRenderControl.Size = new System.Drawing.Size(653, 651);
-            this.TileRenderControl.TabIndex = 0;
             // 
             // toolStrip1
             // 
@@ -136,46 +183,32 @@
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(29, 22);
             this.toolStripDropDownButton1.Text = "toolStripDropDownButton1";
             // 
-            // tabControl1
+            // splitContainer2
             // 
-            this.tabControl1.Controls.Add(this.layersTabPage);
-            this.tabControl1.Controls.Add(this.TilesetsTabPage);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(239, 651);
-            this.tabControl1.TabIndex = 0;
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // layersTabPage
+            // splitContainer2.Panel1
             // 
-            this.layersTabPage.Location = new System.Drawing.Point(4, 22);
-            this.layersTabPage.Name = "layersTabPage";
-            this.layersTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.layersTabPage.Size = new System.Drawing.Size(231, 625);
-            this.layersTabPage.TabIndex = 0;
-            this.layersTabPage.Text = "Layers";
-            this.layersTabPage.UseVisualStyleBackColor = true;
+            this.splitContainer2.Panel1.Controls.Add(this.SelectedTileLabel);
             // 
-            // TilesetsTabPage
+            // splitContainer2.Panel2
             // 
-            this.TilesetsTabPage.Controls.Add(this.TileSetControl);
-            this.TilesetsTabPage.Location = new System.Drawing.Point(4, 22);
-            this.TilesetsTabPage.Name = "TilesetsTabPage";
-            this.TilesetsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.TilesetsTabPage.Size = new System.Drawing.Size(231, 625);
-            this.TilesetsTabPage.TabIndex = 1;
-            this.TilesetsTabPage.Text = "Tilesets";
-            this.TilesetsTabPage.UseVisualStyleBackColor = true;
+            this.splitContainer2.Panel2.Controls.Add(this.TileSetControl);
+            this.splitContainer2.Size = new System.Drawing.Size(225, 619);
+            this.splitContainer2.SplitterDistance = 34;
+            this.splitContainer2.TabIndex = 0;
             // 
-            // TileSetControl
+            // SelectedTileLabel
             // 
-            this.TileSetControl.BackColor = System.Drawing.Color.Silver;
-            this.TileSetControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TileSetControl.Location = new System.Drawing.Point(3, 3);
-            this.TileSetControl.Name = "TileSetControl";
-            this.TileSetControl.Size = new System.Drawing.Size(225, 619);
-            this.TileSetControl.TabIndex = 0;
+            this.SelectedTileLabel.AutoSize = true;
+            this.SelectedTileLabel.Location = new System.Drawing.Point(4, 4);
+            this.SelectedTileLabel.Name = "SelectedTileLabel";
+            this.SelectedTileLabel.Size = new System.Drawing.Size(72, 13);
+            this.SelectedTileLabel.TabIndex = 0;
+            this.SelectedTileLabel.Text = "Selected Tile:";
             // 
             // DesignerForm
             // 
@@ -189,6 +222,8 @@
             this.DesignSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DesignSplitContainer)).EndInit();
             this.DesignSplitContainer.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.TilesetsTabPage.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -196,8 +231,11 @@
             this.splitContainer1.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.tabControl1.ResumeLayout(false);
-            this.TilesetsTabPage.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel1.PerformLayout();
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -215,5 +253,7 @@
         private System.Windows.Forms.TabPage layersTabPage;
         private System.Windows.Forms.TabPage TilesetsTabPage;
         private TileSetControl TileSetControl;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.Label SelectedTileLabel;
     }
 }

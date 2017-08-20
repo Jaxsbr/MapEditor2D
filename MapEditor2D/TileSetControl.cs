@@ -22,6 +22,9 @@ namespace MapEditor2D
 
         private Point _startPoint;
 
+        public delegate void TileSelectedEventHandler(Point tileCoords, int tileIndes);
+        public TileSelectedEventHandler OnTileSelected;
+
 
         public TileSetControl()
         {
@@ -59,6 +62,8 @@ namespace MapEditor2D
             base.OnMouseDown(e);
 
             var tileCoords = GetTileCoordinateFromPoint(e.Location);
+            OnTileSelected.Invoke(tileCoords, GetTileIndexFromCoords(tileCoords));
+
             _startPoint = e.Location;
             _prevSelectedTile = _selectedTile;
             _selectedTile = new Rectangle(
@@ -84,8 +89,34 @@ namespace MapEditor2D
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseUp(e);
+
+            var tileCoords = GetTileCoordinateFromPoint(e.Location);
+            OnTileSelected.Invoke(tileCoords, GetTileIndexFromCoords(tileCoords));
+
             _selectedRectangles.Clear();
             _startPoint = Point.Empty;
+        }
+
+
+        private int GetTileIndexFromCoords(Point coords)
+        {
+            var rows = _image.Height / _map.TileHeight;
+            var cols = _image.Width / _map.TileWidth;
+            var index = 0;
+
+            for (int row = 0; row < rows; row++)
+            {
+                for (int col = 0; col < cols; col++)
+                {
+                    if (coords.X == col && coords.Y == row)
+                    {
+                        return index;
+                    }
+                    index++;
+                }
+            }
+
+            return -1;
         }
 
         private bool CalculateSelectedTiles(Point mousePoint)

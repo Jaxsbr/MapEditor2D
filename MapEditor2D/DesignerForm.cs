@@ -27,6 +27,7 @@ namespace MapEditor2D
 
             TileRenderControl.InitMap(_project.Map);
             TileSetControl.InitMap(_project.Map);
+            TileSetControl.OnTileSelected = TileSetControl_TileSelected;
 
             Invalidate();
         }
@@ -38,6 +39,12 @@ namespace MapEditor2D
             _dockPanel.Dock = DockStyle.Fill;
 
             Controls.Add(_dockPanel);
+        }
+
+
+        private void TileSetControl_TileSelected(Point coords, int index)
+        {            
+            SelectedTileLabel.Text = $"Selected Tile: x:{coords.X} y:{coords.Y} index:{index}";
         }
 
         //private void CreateTileRenderControl()
