@@ -25,7 +25,6 @@ namespace MapEditor2D
         public delegate void TileSelectedEventHandler(Point tileCoords, int tileIndes);
         public TileSelectedEventHandler OnTileSelected;
 
-
         public TileSetControl()
         {
             InitializeComponent();
@@ -71,7 +70,6 @@ namespace MapEditor2D
                 tileCoords.Y * _map.TileHeight,
                 _map.TileWidth,
                 _map.TileHeight);
-            _selectedRectangles.Add(_selectedTile);
 
             Invalidate();
         }
@@ -121,10 +119,6 @@ namespace MapEditor2D
 
         private bool CalculateSelectedTiles(Point mousePoint)
         {
-            // TODO:
-            // When swapping selection direction without releasing the mouse button
-            // we need clear the selection rectangle, else we get unwanted selections.
-
             var added = false;
             var inputA = _startPoint;
             var inputB = mousePoint;
@@ -137,6 +131,8 @@ namespace MapEditor2D
 
             var xTiles = startTileCoords.X + (endTileCoords.X - startTileCoords.X) + 1; // + 1 offset
             var yTiles = startTileCoords.Y + (endTileCoords.Y - startTileCoords.Y) + 1; // + 1 offset
+
+            _selectedRectangles.Clear();
 
             for (int y = startTileCoords.Y; y < yTiles; y++)
             {
