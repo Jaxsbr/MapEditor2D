@@ -22,7 +22,7 @@ namespace MapEditor2D
 
         private Point _startPoint;
 
-        public delegate void TileSelectedEventHandler(Point tileCoords, int tileIndes);
+        public delegate void TileSelectedEventHandler(Point tileCoords, int tileIndex, Bitmap tileImage);
         public TileSelectedEventHandler OnTileSelected;
 
         public TileSetControl()
@@ -60,8 +60,7 @@ namespace MapEditor2D
         {
             base.OnMouseDown(e);
 
-            var tileCoords = GetTileCoordinateFromPoint(e.Location);
-            OnTileSelected.Invoke(tileCoords, GetTileIndexFromCoords(tileCoords));
+            var tileCoords = GetTileCoordinateFromPoint(e.Location);            
 
             _startPoint = e.Location;
             _prevSelectedTile = _selectedTile;
@@ -72,6 +71,8 @@ namespace MapEditor2D
                 _map.TileHeight);
 
             Invalidate();
+
+            OnTileSelected.Invoke(tileCoords, GetTileIndexFromCoords(tileCoords), GetTileImage(tileCoords));
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
@@ -89,12 +90,25 @@ namespace MapEditor2D
             base.OnMouseUp(e);
 
             var tileCoords = GetTileCoordinateFromPoint(e.Location);
-            OnTileSelected.Invoke(tileCoords, GetTileIndexFromCoords(tileCoords));
+            OnTileSelected.Invoke(tileCoords, GetTileIndexFromCoords(tileCoords), GetTileImage(tileCoords));
 
             _selectedRectangles.Clear();
             _startPoint = Point.Empty;
         }
 
+
+        private Bitmap GetTileImage(Point tileCoords)
+        {
+            var src = _image as Bitmap;
+            var target = new Bitmap(_selectedTile.Width, _selectedTile.Height);
+
+            using (var graphics = Graphics.FromImage(target))
+            {
+                graphics.DrawImage(src, new Rectangle(0, 0, target.Width, target.Height), _selectedTile, GraphicsUnit.Pixel);
+            }
+
+            return target;
+        }
 
         private int GetTileIndexFromCoords(Point coords)
         {

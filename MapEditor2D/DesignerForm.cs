@@ -42,16 +42,14 @@ namespace MapEditor2D
         }
 
 
-        private void TileSetControl_TileSelected(Point coords, int index)
+        private void TileSetControl_TileSelected(Point coords, int index, Bitmap tileImage)
         {            
             SelectedTileLabel.Text = $"Selected Tile: x:{coords.X} y:{coords.Y} index:{index}";
-        }
 
-        //private void CreateTileRenderControl()
-        //{
-        //    var tileRenderControl = new TileRenderControl(_project.Map);
-        //    tileRenderControl.Dock = DockStyle.Fill;
-        //    MainSplitContainer.Panel1.Controls.Add(tileRenderControl);
-        //}
+            // TODO:            
+            // Handle multiple tile selection
+
+            TileRenderControl.Cursor = new Cursor(tileImage.GetHicon());
+        }
     }
 }
