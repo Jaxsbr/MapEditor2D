@@ -15,15 +15,56 @@ namespace MapEditor2D
     public partial class TileRenderControl : UserControl
     {
         private Map _map;
+        private bool _drawing = false;
+        private Rectangle _drawingRect;
+
 
         public TileRenderControl()
         {
             InitializeComponent();
+            DoubleBuffered = true;
         }
 
         public void InitMap(Map map)
         {
             _map = map;
+        }
+
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+            _drawing = true;
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+            if (e.Button == MouseButtons.Left && _drawing)
+            {
+                var offset = GetDrawingOffset(
+                    new Rectangle(0, 0, _map.Columns * _map.TileWidth, _map.Rows * _map.TileHeight));
+                var tileCoords = GetTileCoordinateFromPoint(e.Location, offset);
+                if (!TileInMapBounds(tileCoords))
+                {
+                    return;
+                }
+
+                _drawingRect = new Rectangle(
+                    offset.X + tileCoords.X * _map.TileWidth,
+                    offset.Y + tileCoords.Y * _map.TileHeight,
+                    _map.TileWidth,
+                    _map.TileHeight);
+
+                Invalidate();
+            }
+        }        
+
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            base.OnMouseUp(e);
+            _drawing = false;
+            Invalidate();
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -32,13 +73,45 @@ namespace MapEditor2D
             if (_map != null)
             {
                 DrawLayers(e);
+                DrawSelectedTile(e);
             }            
         }
 
         protected override void OnResize(EventArgs e)
         {
-            base.OnResize(e);
+            base.OnResize(e);            
             Invalidate(); // TODO: Rectangle of visible area
+        }
+
+
+        private bool TileInMapBounds(Point tileCoords)
+        {
+            return tileCoords.X >= 0 &&
+                   tileCoords.X < _map.Columns &&
+                   tileCoords.Y >= 0 &&
+                   tileCoords.Y < _map.Rows;
+        }
+
+        private Point GetTileCoordinateFromPoint(Point mousePoint, Point offset)
+        {
+            var x = Math.Floor((double)(mousePoint.X - offset.X) / _map.TileWidth);
+            var y = Math.Floor((double)(mousePoint.Y - offset.Y) / _map.TileHeight);
+            return new Point((int)x, (int)y);
+        }
+
+        private void DrawSelectedTile(PaintEventArgs e)
+        {
+            if (!_drawing || _drawingRect == null)
+            {
+                return;
+            }
+
+            e.Graphics.FillRectangle(
+                Brushes.Maroon,
+                _drawingRect.X,
+                _drawingRect.Y,
+                _drawingRect.Width,
+                _drawingRect.Height);
         }
 
         private void DrawLayers(PaintEventArgs e)
